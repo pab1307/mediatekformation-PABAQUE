@@ -1,0 +1,1 @@
+# mediatekformation-PABAQUE
