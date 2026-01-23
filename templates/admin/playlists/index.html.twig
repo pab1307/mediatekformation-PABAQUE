@@ -1,0 +1,94 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block title %}Back-office – Playlists{% endblock %}
+
+{% block admin_body %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">Gestion des playlists</h1>
+
+    {# Bouton d'ajout #}
+    <div class="mb-3">
+        <a href="{{ path('admin_playlists_add') }}" class="btn btn-primary">
+            Ajouter une playlist
+        </a>
+    </div>
+
+    {# Filtres / tris comme sur la page des formations #}
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-md-4">
+            <input type="text"
+                   name="filtre_name"
+                   value="{{ filtre_name }}"
+                   class="form-control"
+                   placeholder="Filtrer par nom">
+        </div>
+
+        <div class="col-md-3">
+            <select name="tri" class="form-select">
+                <option value="name" {{ tri == 'name' ? 'selected' }}>Tri par nom</option>
+                <option value="nb"   {{ tri == 'nb'   ? 'selected' }}>Tri par nombre de formations</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <select name="ordre" class="form-select">
+                <option value="ASC"  {{ ordre == 'ASC'  ? 'selected' }}>Croissant</option>
+                <option value="DESC" {{ ordre == 'DESC' ? 'selected' }}>Décroissant</option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-secondary w-100">Appliquer</button>
+        </div>
+    </form>
+
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Nb formations</th>
+            <th class="text-end">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for playlist in playlists %}
+            <tr>
+                <td>{{ playlist.id }}</td>
+                <td>{{ playlist.name }}</td>
+                <td>{{ playlist.description }}</td>
+                <td>{{ playlist.formations|length }}</td>
+
+                <td class="text-end">
+                    <a href="{{ path('admin_playlists_edit', {id: playlist.id}) }}"
+                       class="btn btn-sm btn-warning">
+                        Modifier
+                    </a>
+
+                    {# Suppression avec CSRF + interdiction si des formations sont liées #}
+                    <form method="post"
+                          action="{{ path('admin_playlists_delete', {id: playlist.id}) }}"
+                          style="display:inline-block"
+                          onsubmit="return confirm('Supprimer cette playlist ?');">
+
+                        <input type="hidden" name="_token"
+                               value="{{ csrf_token('delete' ~ playlist.id) }}">
+
+                        <button class="btn btn-sm btn-danger"
+                                {% if playlist.formations|length > 0 %}disabled{% endif %}>
+                            Supprimer
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucune playlist trouvée.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block admin_title %}Formations{% endblock %}
+
+{% block admin_body %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">Gestion des formations</h1>
+
+    {# Bouton d'ajout #}
+    <div class="mb-3">
+        <a href="{{ path('admin_formations_add') }}" class="btn btn-primary">
+            Ajouter une formation
+        </a>
+    </div>
+
+    {# Filtres / tris (mêmes principes que le front) #}
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-md-3">
+            <input type="text"
+                   name="filtre_title"
+                   value="{{ filtre_title }}"
+                   class="form-control"
+                   placeholder="Filtrer par titre">
+        </div>
+
+        <div class="col-md-3">
+            <input type="text"
+                   name="filtre_playlist"
+                   value="{{ filtre_playlist }}"
+                   class="form-control"
+                   placeholder="Filtrer par playlist">
+        </div>
+
+        <div class="col-md-2">
+            <select name="tri" class="form-select">
+                <option value="date"   {{ tri == 'date'   ? 'selected' }}>Tri par date</option>
+                <option value="titre"  {{ tri == 'titre'  ? 'selected' }}>Tri par titre</option>
+                <option value="playlist" {{ tri == 'playlist' ? 'selected' }}>Tri par playlist</option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <select name="ordre" class="form-select">
+                <option value="ASC"  {{ ordre == 'ASC'  ? 'selected' }}>Croissant</option>
+                <option value="DESC" {{ ordre == 'DESC' ? 'selected' }}>Décroissant</option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-secondary w-100">Appliquer</button>
+        </div>
+    </form>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Formation</th>
+                <th>Playlist</th>
+                <th>Catégories</th>
+                <th>Date</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for formation in formations %}
+            <tr>
+                <td>{{ formation.id }}</td>
+                <td>{{ formation.title }}</td>
+                <td>{{ formation.playlist ? formation.playlist.name : '' }}</td>
+                <td>
+                    {% for cat in formation.categories %}
+                        {{ cat.name }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ formation.publishedAt ? formation.publishedAt|date('d/m/Y') : '' }}</td>
+
+                <td class="text-end">
+                    <a href="{{ path('admin_formations_edit', {id: formation.id}) }}"
+                       class="btn btn-sm btn-warning">
+                        Modifier
+                    </a>
+
+                    {# Formulaire de suppression avec token CSRF #}
+                    <form method="post"
+                          action="{{ path('admin_formations_delete', {id: formation.id}) }}"
+                          style="display:inline-block"
+                          onsubmit="return confirm('Supprimer cette formation ?');">
+
+                        <input type="hidden" name="_token"
+                               value="{{ csrf_token('delete' ~ formation.id) }}">
+
+                        <button class="btn btn-sm btn-danger">
+                            Supprimer
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucune formation trouvée.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block admin_title %}
+    {% if formation is defined %}
+        Modifier une formation
+    {% else %}
+        Ajouter une formation
+    {% endif %}
+{% endblock %}
+
+{% block admin_body %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">
+        {% if formation is defined %}
+            Modifier la formation : {{ formation.title }}
+        {% else %}
+            Ajouter une nouvelle formation
+        {% endif %}
+    </h1>
+
+    {{ form_start(form) }}
+
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.publishedAt) }}
+        {{ form_row(form.playlist) }}
+        {{ form_row(form.categories) }}
+
+        <button class="btn btn-success mt-3">
+            {% if formation is defined %}
+                Enregistrer les modifications
+            {% else %}
+                Créer la formation
+            {% endif %}
+        </button>
+
+        <a href="{{ path('admin_formations') }}" class="btn btn-secondary mt-3 ms-2">
+            Retour à la liste
+        </a>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}

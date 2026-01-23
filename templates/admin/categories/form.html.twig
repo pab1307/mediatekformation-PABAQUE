@@ -1,0 +1,24 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block admin_title %}Ajouter une catégorie{% endblock %}
+
+{% block admin_body %}
+<div class="mt-4">
+
+    <h1 class="mb-4">Ajouter une nouvelle catégorie</h1>
+
+    {{ form_start(form) }}
+
+        {{ form_row(form.name) }}
+
+        <button class="btn btn-success mt-3">
+            Créer la catégorie
+        </button>
+
+        <a href="{{ path('admin_categories') }}" class="btn btn-secondary mt-3 ms-2">
+            Retour à la liste
+        </a>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}

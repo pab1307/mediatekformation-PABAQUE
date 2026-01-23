@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{# titre de la page admin #}
+{% block title %}
+    Back-office – {% block admin_title '' %}{% endblock %}
+
+{# contenu de la page admin #}
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ path('admin_formations') }}">Back-office</a>
+            
+            <a class="btn btn-outline-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('admin_formations') }}">Formations</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('admin_playlists') }}">Playlists</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('admin_categories') }}">Catégories</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('accueil') }}">Retour au site</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block admin_body %}{% endblock %}
+    </div>
+{% endblock %}

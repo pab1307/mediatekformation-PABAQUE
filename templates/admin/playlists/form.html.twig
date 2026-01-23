@@ -1,0 +1,41 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block admin_title %}
+    {% if playlist is defined %}
+        Modifier une playlist
+    {% else %}
+        Ajouter une playlist
+    {% endif %}
+{% endblock %}
+
+{% block admin_body %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">
+        {% if playlist is defined %}
+            Modifier la playlist : {{ playlist.name }}
+        {% else %}
+            Ajouter une nouvelle playlist
+        {% endif %}
+    </h1>
+
+    {{ form_start(form) }}
+
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+
+        <button class="btn btn-success mt-3">
+            {% if playlist is defined %}
+                Enregistrer les modifications
+            {% else %}
+                Créer la playlist
+            {% endif %}
+        </button>
+
+        <a href="{{ path('admin_playlists') }}" class="btn btn-secondary mt-3 ms-2">
+            Retour à la liste
+        </a>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}
