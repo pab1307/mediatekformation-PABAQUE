@@ -77,7 +77,7 @@ Remarques :
 Les clés primaires des entités sont en auto-incrémentation.<br>
 Le chemin des images (des 2 tailles) n'est pas mémorisé dans la BDD car il peut être fabriqué de la façon suivante :<br>
 "https://i.ytimg.com/vi/" suivi de, soit "/default.jpg" (pour la miniature), soit "/hqdefault.jpg" (pour l'image plus grande de la page d'accueil).
-## Fonctionalités
+## Fonctionalités ajoutées
 - Ajout d’une colonne “Nombre de formations”
 - Mise en place complète du Back Office sécurisé
 - Ajout d'une authentification administrateur
