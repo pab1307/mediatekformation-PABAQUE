@@ -84,7 +84,6 @@ Le chemin des images (des 2 tailles) n'est pas mémorisé dans la BDD car il peu
 - Ajout de la gestion des formations
 - Ajout de la gestion des playlists
 - Ajout de la gestion des catégories
-- Ajout d’une page CGU
 ## Test de l'application en local
 - Vérifier que Composer, Git et Wamserver (ou équivalent) sont installés sur l'ordinateur.
 - Télécharger le code et le dézipper dans www de Wampserver (ou dossier équivalent) puis renommer le dossier en "mediatekformation".<br>
